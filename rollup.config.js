@@ -6,12 +6,18 @@ import uglify from 'rollup-plugin-uglify';
 
 const production = !process.env.ROLLUP_WATCH;
 
+var outputFile = 'dist/custom.js';
+if (!production) {
+    outputFile = 'public/custom.js';
+}
+console.log("writing to output file: " + outputFile);
+
 export default {
 	input: 'src/main.js',
 	output: {
 		sourcemap: true,
 		format: 'iife',
-		file: 'public/bundle.js',
+		file: outputFile,
 		name: 'app'
 	},
 	plugins: [
@@ -35,7 +41,9 @@ export default {
 
 		// If we're building for production (npm run build
 		// instead of npm run dev), transpile and minify
-		production && buble({ exclude: 'node_modules/**' }),
-		production && uglify()
+		production && buble({ exclude: 'node_modules/**' })
+        
+        //,
+		//production && uglify()
 	]
 };

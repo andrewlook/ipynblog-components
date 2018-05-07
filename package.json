@@ -1,5 +1,5 @@
 {
-  "name": "svelte-app",
+  "name": "my-new-custom-elements",
   "version": "1.0.0",
   "devDependencies": {
     "rollup": "^0.53.2",
@@ -9,7 +9,7 @@
     "rollup-plugin-svelte": "^4.0.0",
     "rollup-plugin-uglify": "^2.0.1",
     "serve": "^6.4.3",
-    "svelte": "^1.50.1"
+    "svelte": "^2.6.0"
   },
   "scripts": {
     "build": "rollup -c",

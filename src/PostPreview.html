@@ -1,0 +1,141 @@
+
+<a href="{ url }" class="post-preview">
+  <div class="metadata">
+    <div class="publishedDate">{ pubDate }</div>
+
+    <div class="tags">
+      <!-- TODO make this dynamic -->
+      <span class="tag">commentary</span>
+    </div>
+
+  </div>
+  <div class="thumbnail"><img src="{ thumbnailImgPath }" alt="{ title }" /></div>
+  <div class="description">
+    <h2>{ title }</h2>
+    <p>{ description }</p>
+  </div>
+</a>
+
+<style>
+
+.description h2,
+.description p {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+}
+
+.description h2 {
+  font-weight: 700;
+}
+
+.post-preview {
+  text-decoration: none;
+  overflow: hidden;
+  display: block;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 24px 0;
+}
+.post-preview:last-of-type {
+  border-bottom: none;
+}
+
+.post-preview h2 {
+  margin: 0 0 6px 0;
+  line-height: 1.2em;
+  font-style: normal;
+  font-size: 24px;
+}
+
+.post-preview p {
+  margin: 0 0 12px 0;
+  line-height: 1.4em;
+  font-size: 16px;
+}
+
+.post-preview .thumbnail {
+  box-sizing: border-box;
+  margin-bottom: 24px;
+  position: relative;
+  max-width: 500px;
+}
+.post-preview img {
+  width: 100%;
+  display: block;
+}
+
+.metadata {
+  font-size: 12px;
+  line-height: 1.4em;
+  margin-bottom: 18px;
+}
+
+.metadata > * {
+  display: inline-block;
+}
+
+.metadata .publishedDate {
+  margin-right: 1em;
+}
+
+.metadata .tags {
+  margin-top: 1em;
+}
+
+.tags .tag {
+  color: rgba(0,0,0,0.67);
+  padding: 0.3em 0.5em;
+  margin: 0;
+  font-size: 80%;
+  border: 1px solid rgba(0,0,0,0.4);
+  border-radius: 3px;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+@media(min-width: 768px) {
+  .post-preview h2 {
+    font-size: 26px;
+  }
+  .post-preview .thumbnail {
+    float: right;
+    width: 35%;
+    margin-bottom: 0;
+  }
+  .post-preview .description {
+    float: left;
+    width: 40%;
+  }
+  .post-preview .metadata {
+    float: left;
+    width: 15%;
+    margin-top: 8px;
+  }
+  .post-preview p {
+    margin: 0 0 12px 0;
+    line-height: 1.5em;
+    font-size: 16px;
+  }
+}
+
+</style>
+
+
+<script>
+    export default {
+        tag: 'post-preview',
+        data() {
+            return {
+                title: "Desert Friends",
+                description: "A psychadelic journey through time and space",
+                pubDate: "May 10, 2017",
+                thumbnailImgPath: "./images/desert_friends.png",
+                url: "https://distill.pub/2018/building-blocks/",
+                tags: ["art"],
+            }
+        },
+        oncreate() {
+            console.log('SlotPostPreview[this.options]:  ');
+            console.log(this.options)
+            console.log(this.options.data);
+        },
+    };
+</script>

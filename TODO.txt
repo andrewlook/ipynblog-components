@@ -1,0 +1,16 @@
+ 
+# dev mode
+- figure out a better solution than submodules for serving built assets from the public dir
+
+from svelte custom elem template:
+```
+    export default {
+        input: 'src/main.js',
+        output: {
+                sourcemap: true,
+                format: 'iife',
+                file: 'public/bundle.js',
+                name: 'app'
+        },
+        ...
+```

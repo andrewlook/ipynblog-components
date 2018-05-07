@@ -1,3 +1,2 @@
-import './App.html';
-
-document.body.innerHTML = '<my-app name="world">';
+import PostPreview from './PostPreview.html';
+import PostsList from './PostsList.html';
