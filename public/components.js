@@ -446,4 +446,4 @@ PostsList.prototype._checkReadOnly = function _checkReadOnly(newState) {
 };
 
 }());
-//# sourceMappingURL=custom.js.map
+//# sourceMappingURL=components.js.map

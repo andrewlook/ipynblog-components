@@ -1,16 +1,14 @@
- 
-# dev mode
-- figure out a better solution than submodules for serving built assets from the public dir
+# TODO
 
-from svelte custom elem template:
-```
-    export default {
-        input: 'src/main.js',
-        output: {
-                sourcemap: true,
-                format: 'iife',
-                file: 'public/bundle.js',
-                name: 'app'
-        },
-        ...
-```
+- [ ] make NPM build work properly
+- [ ] should rollup build UMD or IIFE?
+- [ ] publish to NPM
+- [ ] document usage
+- [ ] add license
+- [ ] add header to files from distillpub
+- [ ] figure out how to deal w/ distill dependency
+- [ ] add a header element
+- [ ] add some kind of JSDOM transform script to apply to HTML generated
+      from submodule
+- [ ] add a photo-slider element
+- [ ] fix uglify plugin error

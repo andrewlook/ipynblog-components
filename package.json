@@ -1,5 +1,16 @@
 {
-  "name": "my-new-custom-elements",
+  "name": "ipynblog-components",
+  "description": "Components for building static sites using ipynblog",
+  "main": "dist/components.js",
+  "author": "Andrew Look",
+  "homepage": "https://github.com/andrewlook/ipynblog-components#readme",
+  "bugs": {
+    "url": "https://github.com/andrewlook/ipynblog-components/issues"
+  },
+  "repository": {
+    "url": "git+https://github.com/andrewlook/ipynblog-components.git",
+    "type": "git"
+  },
   "version": "1.0.0",
   "devDependencies": {
     "rollup": "^0.53.2",

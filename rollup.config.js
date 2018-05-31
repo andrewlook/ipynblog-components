@@ -6,9 +6,9 @@ import uglify from 'rollup-plugin-uglify';
 
 const production = !process.env.ROLLUP_WATCH;
 
-var outputFile = 'dist/custom.js';
+var outputFile = 'dist/components.js';
 if (!production) {
-    outputFile = 'public/custom.js';
+    outputFile = 'public/components.js';
 }
 console.log("writing to output file: " + outputFile);
 
