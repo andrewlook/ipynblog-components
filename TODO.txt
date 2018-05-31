@@ -2,23 +2,25 @@
 
 ## docs / setup
 
-- [ ] document usage
-- [ ] add license
-- [ ] personalize the README
+- [x] document usage
+- [x] add license
+- [x] personalize the README
 
 ## build
 
+- [ ] publish to NPM
 - [x] make NPM build work properly
 - [x] should rollup build UMD or IIFE?
-- [ ] publish to NPM
-- [ ] fix uglify plugin error
-- [ ] figure out how to deal w/ distill dependency; v1 vs v2? independent?
+- [x] fix uglify plugin error
+- [x] figure out how to deal w/ distill dependency; v1 vs v2? independent?
 
 ## components
 
-- [ ] add header to files from distillpub
+- [ ] add better distill fwk for the example page
+- [ ] make "tags" a usable property of the `PostPreview` component
 - [ ] add a header element
 - [ ] add a photo-slider element
+- [x] add opensrc header to files from distillpub
 
 ## transforms
 
