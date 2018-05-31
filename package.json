@@ -4,6 +4,7 @@
   "main": "dist/components.js",
   "author": "Andrew Look",
   "homepage": "https://github.com/andrewlook/ipynblog-components#readme",
+  "license": "https://github.com/andrewlook/ipynblog-components/blob/master/LICENSE.txt",
   "bugs": {
     "url": "https://github.com/andrewlook/ipynblog-components/issues"
   },

@@ -15,8 +15,12 @@
 	<script src='exampleBundle.js'></script>
 
     <d-article>
-        <post-preview title="xyz"></post-preview>
-        <post-preview title="abc"></post-preview>
+        <posts-list>
+            <slot>
+                <post-preview title="xyz"></post-preview>
+                <post-preview title="abc"></post-preview>
+            </slot>
+        </posts-list>
     </d-article>
 
 	<script>

@@ -1,66 +1,69 @@
-# svelte app
+# ipynblog-components
 
-This is a project template for [Svelte](https://svelte.technology) apps. It lives at https://github.com/sveltejs/template-custom-element.
+Custom HTML elements to help set up Distill-style static sites using
+[ipynblog](https://github.com/andrewlook/ipynblog-components).
 
-To create a new project based on this template using [degit](https://github.com/Rich-Harris/degit):
+## Installation
 
-```bash
-npm install -g degit # you only need to do this once
-
-degit sveltejs/template-custom-element svelte-app
-cd svelte-app
+Import the javascript using a simple script tag:
+```HTML
+<script type="text/javascript"
+        src="https://raw.githubusercontent.com/andrewlook/ipynblog-components/master/dist/components.es5.js">
+</script>
 ```
 
-*Note that you will need to have [Node.js](https://nodejs.org) installed.*
+Or, if you have a more involved JS build, you may import the ES6 module:
+```bash
+npm install ipynblog-components
+```
+and then, in your JS code:
+```
+import 'ipynblog-components';
+```
 
+## Usage
 
-## Get started
+### `PostsList` and `PostPreview`
+
+```HTML
+<posts-list>
+    <slot>
+        <post-preview title="xyz"></post-preview>
+        <post-preview title="abc"></post-preview>
+    </slot>
+</posts-list>
+```
+
+## Developing
 
 Install the dependencies...
 
 ```bash
-cd svelte-app
+cd ipynblog-components
 npm install
 ```
 
 ...then start [Rollup](https://rollupjs.org):
-
 ```bash
 npm run dev
 ```
 
-Navigate to [localhost:5000](http://localhost:5000). You should see your app running. Edit a component file in `src`, save it, and reload the page to see your changes.
+In a separate terminal, start a local server (we're using python's
+`SimpleHTTPServer` because using the JS-native `serve` breaks silently when
+offline, and offline development is a goal of this project)
+
+Navigate to [localhost:8888](http://localhost:8888). You should see your app
+running. Edit a component file in `src`, save it, and reload the page to see
+your changes.
 
 
-## Deploying to the web
+# License
 
-### With [now](https://zeit.co/now)
+[Apache V2](https://github.com/andrewlook/ipynblog-components/blob/master/LICENSE.txt), with the exception of code based on / included from third parties:
 
-Install `now` if you haven't already:
-
-```bash
-npm install -g now
-```
-
-Then, from within your project folder:
-
-```bash
-now
-```
-
-As an alternative, use the [Now desktop client](https://zeit.co/download) and simply drag the unzipped project folder to the taskbar icon.
-
-### With [surge](https://surge.sh/)
-
-Install `surge` if you haven't already:
-
-```bash
-npm install -g surge
-```
-
-Then, from within your project folder:
-
-```bash
-npm run build
-surge public
-```
+| File                      | License Type  | Source            |
+| ------------------------- | ------------- | ----------------- |
+| src/PostsList.html        | Apache V2     | Distill Authors   |
+| src/PostPreview.html      | Apache V2     | Distill Authors   |
+| src/DistillHeader.html    | Apache V2     | Distill Authors   |
+ 

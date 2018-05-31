@@ -758,7 +758,7 @@ distill-header .nav a {
 </div>
 
 `);class Rr extends jr(HTMLElement){}const qr=function(){if(1>window.distillRunlevel)throw new Error('Insufficient Runlevel for Distill Template!');if('distillTemplateIsLoading'in window&&window.distillTemplateIsLoading)throw new Error('Runlevel 1: Distill Template is getting loaded more than once, aborting!');else window.distillTemplateIsLoading=!0, console.info('Runlevel 1: Distill Template has started loading.');u(document), console.info('Runlevel 1: Static Distill styles have been added.'), console.info('Runlevel 1->2.'), window.distillRunlevel+=1;for(const[e,t]of Object.entries(fi.listeners))'function'==typeof t?document.addEventListener(e,t):console.error('Runlevel 2: Controller listeners need to be functions!');console.info('Runlevel 2: We can now listen to controller events.'), console.info('Runlevel 2->3.'), window.distillRunlevel+=1;if(2>window.distillRunlevel)throw new Error('Insufficient Runlevel for adding custom elements!');const e=[xi,vi,Si,_i,Li,Ei,Mi,Ii,ji,qi,ui,Pi,Hi,T,Yi,Bi,Wi,Dr,Ki].concat([Ur,Nr,Rr]);for(const t of e)console.info('Runlevel 2: Registering custom element: '+t.is), customElements.define(t.is,t);console.info('Runlevel 3: Distill Template finished registering custom elements.'), console.info('Runlevel 3->4.'), window.distillRunlevel+=1, fi.listeners.DOMContentLoaded(), console.info('Runlevel 4: Distill Template initialisation complete.');};window.distillRunlevel=0, mi.browserSupportsAllFeatures()?(console.info('Runlevel 0: No need for polyfills.'), console.info('Runlevel 0->1.'), window.distillRunlevel+=1, qr()):(console.info('Runlevel 0: Distill Template is loading polyfills.'), mi.load(qr));});
-
+//# sourceMappingURL=template.v2.js.map
 });
 
 }());
