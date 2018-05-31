@@ -24,7 +24,7 @@
   },
   "scripts": {
     "build": "rollup -c",
-    "dev": "serve public & rollup -c -w",
-    "start": "serve public"
+    "dev": "rollup -c -w",
+    "serve": "python3 -m http.server --bind 127.0.0.1 8888"
   }
 }

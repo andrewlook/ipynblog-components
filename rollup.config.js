@@ -2,7 +2,9 @@ import svelte from 'rollup-plugin-svelte';
 import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
 import buble from 'rollup-plugin-buble';
-import uglify from 'rollup-plugin-uglify';
+
+// TODO(look): fix this
+//import uglify from 'rollup-plugin-uglify';
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -16,7 +18,7 @@ export default {
 	input: 'src/main.js',
 	output: {
 		sourcemap: true,
-		format: 'iife',
+		format: 'umd', // usable by both browsers and Node.js
 		file: outputFile,
 		name: 'app'
 	},

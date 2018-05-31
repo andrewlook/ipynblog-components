@@ -8,8 +8,8 @@
 
 ## build
 
-- [ ] make NPM build work properly
-- [ ] should rollup build UMD or IIFE?
+- [x] make NPM build work properly
+- [x] should rollup build UMD or IIFE?
 - [ ] publish to NPM
 - [ ] fix uglify plugin error
 - [ ] figure out how to deal w/ distill dependency; v1 vs v2? independent?

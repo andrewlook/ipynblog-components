@@ -1,5 +1,8 @@
-(function () {
-'use strict';
+(function (global, factory) {
+	typeof exports === 'object' && typeof module !== 'undefined' ? factory() :
+	typeof define === 'function' && define.amd ? define(factory) :
+	(factory());
+}(this, (function () { 'use strict';
 
 function noop() {}
 
@@ -445,5 +448,5 @@ customElements.define("posts-list", PostsList);
 PostsList.prototype._checkReadOnly = function _checkReadOnly(newState) {
 };
 
-}());
+})));
 //# sourceMappingURL=components.js.map
