@@ -1,5 +1,8 @@
-(function () {
-'use strict';
+(function (global, factory) {
+	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+	typeof define === 'function' && define.amd ? define(factory) :
+	(global.components = factory());
+}(this, (function () { 'use strict';
 
 function noop() {}
 
@@ -445,9 +448,12 @@ customElements.define("posts-list", PostsList);
 PostsList.prototype._checkReadOnly = function _checkReadOnly(newState) {
 };
 
-// this file is meant to serve as an example of how the custom elements may be imported.
-// the idea is that components.js gets imported via ES6 before this thing gets transpiled.
-// importing distill-template here too so its components are usable in the example HTML.
+const components = [
+    PostPreview,
+    PostsList,
+];
 
-}());
-//# sourceMappingURL=exampleBundle.js.map
+return components;
+
+})));
+//# sourceMappingURL=components.es5.js.map
