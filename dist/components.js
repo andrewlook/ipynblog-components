@@ -1,7 +1,7 @@
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
 	typeof define === 'function' && define.amd ? define(factory) :
-	(global.app = factory());
+	(global.components = factory());
 }(this, (function () { 'use strict';
 
 function noop() {}
@@ -48,6 +48,13 @@ function destroy(detach) {
 	this._fragment.d(detach !== false);
 	this._fragment = null;
 	this._state = {};
+}
+
+function destroyDev(detach) {
+	destroy.call(this, detach);
+	this.destroy = function() {
+		console.warn('Component was already destroyed');
+	};
 }
 
 function _differs(a, b) {
@@ -126,6 +133,17 @@ function _set(newState) {
 	}
 }
 
+function setDev(newState) {
+	if (typeof newState !== 'object') {
+		throw new Error(
+			this._debugName + '.set was called without an object of data key-values to update.'
+		);
+	}
+
+	this._checkReadOnly(newState);
+	set.call(this, newState);
+}
+
 function callAll(fns) {
 	while (fns && fns.length) fns.shift()();
 }
@@ -134,12 +152,12 @@ function _mount(target, anchor) {
 	this._fragment[this._fragment.i ? 'i' : 'm'](target, anchor || null);
 }
 
-var proto = {
-	destroy,
+var protoDev = {
+	destroy: destroyDev,
 	get,
 	fire,
 	on,
-	set,
+	set: setDev,
 	_recompute: noop,
 	_set,
 	_mount,
@@ -168,7 +186,7 @@ function create_main_fragment(component, ctx) {
 	var a, div, div_1, text, text_1, div_2, text_5, div_3, img, text_6, div_4, h2, text_7, text_8, p, text_9;
 
 	return {
-		c: function c() {
+		c: function create() {
 			a = createElement("a");
 			div = createElement("div");
 			div_1 = createElement("div");
@@ -198,7 +216,7 @@ function create_main_fragment(component, ctx) {
 			a.className = "post-preview";
 		},
 
-		m: function m(target, anchor) {
+		m: function mount(target, anchor) {
 			insertNode(a, target, anchor);
 			appendNode(div, a);
 			appendNode(div_1, div);
@@ -217,7 +235,7 @@ function create_main_fragment(component, ctx) {
 			appendNode(text_9, p);
 		},
 
-		p: function p(changed, ctx) {
+		p: function update(changed, ctx) {
 			if (changed.pubDate) {
 				text.data = ctx.pubDate;
 			}
@@ -240,7 +258,7 @@ function create_main_fragment(component, ctx) {
 			}
 		},
 
-		d: function d(detach) {
+		d: function destroy$$1(detach) {
 			if (detach) {
 				detachNode(a);
 			}
@@ -248,18 +266,22 @@ function create_main_fragment(component, ctx) {
 	};
 }
 
-var PostPreview = (function (HTMLElement) {
-	function PostPreview(options) {
-		var this$1 = this;
-		if ( options === void 0 ) options = {};
-
-		HTMLElement.call(this);
+class PostPreview extends HTMLElement {
+	constructor(options = {}) {
+		super();
+		this._debugName = '<post-preview>';
 		init(this, options);
 		this._state = assign(data(), options.data);
+		if (!('url' in this._state) && !('url' in this.attributes)) console.warn("<post-preview> was created without expected data property 'url'");
+		if (!('pubDate' in this._state) && !('pubDate' in this.attributes)) console.warn("<post-preview> was created without expected data property 'pubDate'");
+		if (!('thumbnailImgPath' in this._state) && !('thumbnailImgPath' in this.attributes)) console.warn("<post-preview> was created without expected data property 'thumbnailImgPath'");
+		if (!('title' in this._state) && !('title' in this.attributes)) console.warn("<post-preview> was created without expected data property 'title'");
+		if (!('description' in this._state) && !('description' in this.attributes)) console.warn("<post-preview> was created without expected data property 'description'");
 		this._intro = true;
 
 		this.attachShadow({ mode: 'open' });
-		this.shadowRoot.innerHTML = "<style>.description h2,.description p{font-family:-apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Fira Sans\", \"Droid Sans\", \"Helvetica Neue\", Arial, sans-serif}.description h2{font-weight:700}.post-preview{text-decoration:none;overflow:hidden;display:block;border-bottom:1px solid rgba(0, 0, 0, 0.1);padding:24px 0}.post-preview:last-of-type{border-bottom:none}.post-preview h2{margin:0 0 6px 0;line-height:1.2em;font-style:normal;font-size:24px}.post-preview p{margin:0 0 12px 0;line-height:1.4em;font-size:16px}.post-preview .thumbnail{box-sizing:border-box;margin-bottom:24px;position:relative;max-width:500px}.post-preview img{width:100%;display:block}.metadata{font-size:12px;line-height:1.4em;margin-bottom:18px}.metadata>*{display:inline-block}.metadata .publishedDate{margin-right:1em}.metadata .tags{margin-top:1em}.tags .tag{color:rgba(0,0,0,0.67);padding:0.3em 0.5em;margin:0;font-size:80%;border:1px solid rgba(0,0,0,0.4);border-radius:3px;text-transform:uppercase;font-weight:500}@media(min-width: 768px){.post-preview h2{font-size:26px}.post-preview .thumbnail{float:right;width:35%;margin-bottom:0}.post-preview .description{float:left;width:40%}.post-preview .metadata{float:left;width:15%;margin-top:8px}.post-preview p{margin:0 0 12px 0;line-height:1.5em;font-size:16px}}</style>";
+		this.shadowRoot.innerHTML = `<style>.description h2,.description p{font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif}.description h2{font-weight:700}.post-preview{text-decoration:none;overflow:hidden;display:block;border-bottom:1px solid rgba(0, 0, 0, 0.1);padding:24px 0}.post-preview:last-of-type{border-bottom:none}.post-preview h2{margin:0 0 6px 0;line-height:1.2em;font-style:normal;font-size:24px}.post-preview p{margin:0 0 12px 0;line-height:1.4em;font-size:16px}.post-preview .thumbnail{box-sizing:border-box;margin-bottom:24px;position:relative;max-width:500px}.post-preview img{width:100%;display:block}.metadata{font-size:12px;line-height:1.4em;margin-bottom:18px}.metadata>*{display:inline-block}.metadata .publishedDate{margin-right:1em}.metadata .tags{margin-top:1em}.tags .tag{color:rgba(0,0,0,0.67);padding:0.3em 0.5em;margin:0;font-size:80%;border:1px solid rgba(0,0,0,0.4);border-radius:3px;text-transform:uppercase;font-weight:500}@media(min-width: 768px){.post-preview h2{font-size:26px}.post-preview .thumbnail{float:right;width:35%;margin-bottom:0}.post-preview .description{float:left;width:40%}.post-preview .metadata{float:left;width:15%;margin-top:8px}.post-preview p{margin:0 0 12px 0;line-height:1.5em;font-size:16px}}
+		/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiUG9zdFByZXZpZXcuaHRtbCIsInNvdXJjZXMiOlsiUG9zdFByZXZpZXcuaHRtbCJdLCJzb3VyY2VzQ29udGVudCI6WyJcbjxhIGhyZWY9XCJ7IHVybCB9XCIgY2xhc3M9XCJwb3N0LXByZXZpZXdcIj5cbiAgPGRpdiBjbGFzcz1cIm1ldGFkYXRhXCI+XG4gICAgPGRpdiBjbGFzcz1cInB1Ymxpc2hlZERhdGVcIj57IHB1YkRhdGUgfTwvZGl2PlxuXG4gICAgPGRpdiBjbGFzcz1cInRhZ3NcIj5cbiAgICAgIDwhLS0gVE9ETyBtYWtlIHRoaXMgZHluYW1pYyAtLT5cbiAgICAgIDxzcGFuIGNsYXNzPVwidGFnXCI+Y29tbWVudGFyeTwvc3Bhbj5cbiAgICA8L2Rpdj5cblxuICA8L2Rpdj5cbiAgPGRpdiBjbGFzcz1cInRodW1ibmFpbFwiPjxpbWcgc3JjPVwieyB0aHVtYm5haWxJbWdQYXRoIH1cIiBhbHQ9XCJ7IHRpdGxlIH1cIiAvPjwvZGl2PlxuICA8ZGl2IGNsYXNzPVwiZGVzY3JpcHRpb25cIj5cbiAgICA8aDI+eyB0aXRsZSB9PC9oMj5cbiAgICA8cD57IGRlc2NyaXB0aW9uIH08L3A+XG4gIDwvZGl2PlxuPC9hPlxuXG48c3R5bGU+XG5cbi5kZXNjcmlwdGlvbiBoMixcbi5kZXNjcmlwdGlvbiBwIHtcbiAgZm9udC1mYW1pbHk6IC1hcHBsZS1zeXN0ZW0sIEJsaW5rTWFjU3lzdGVtRm9udCwgXCJTZWdvZSBVSVwiLCBSb2JvdG8sIE94eWdlbiwgVWJ1bnR1LCBDYW50YXJlbGwsIFwiRmlyYSBTYW5zXCIsIFwiRHJvaWQgU2Fuc1wiLCBcIkhlbHZldGljYSBOZXVlXCIsIEFyaWFsLCBzYW5zLXNlcmlmO1xufVxuXG4uZGVzY3JpcHRpb24gaDIge1xuICBmb250LXdlaWdodDogNzAwO1xufVxuXG4ucG9zdC1wcmV2aWV3IHtcbiAgdGV4dC1kZWNvcmF0aW9uOiBub25lO1xuICBvdmVyZmxvdzogaGlkZGVuO1xuICBkaXNwbGF5OiBibG9jaztcbiAgYm9yZGVyLWJvdHRvbTogMXB4IHNvbGlkIHJnYmEoMCwgMCwgMCwgMC4xKTtcbiAgcGFkZGluZzogMjRweCAwO1xufVxuLnBvc3QtcHJldmlldzpsYXN0LW9mLXR5cGUge1xuICBib3JkZXItYm90dG9tOiBub25lO1xufVxuXG4ucG9zdC1wcmV2aWV3IGgyIHtcbiAgbWFyZ2luOiAwIDAgNnB4IDA7XG4gIGxpbmUtaGVpZ2h0OiAxLjJlbTtcbiAgZm9udC1zdHlsZTogbm9ybWFsO1xuICBmb250LXNpemU6IDI0cHg7XG59XG5cbi5wb3N0LXByZXZpZXcgcCB7XG4gIG1hcmdpbjogMCAwIDEycHggMDtcbiAgbGluZS1oZWlnaHQ6IDEuNGVtO1xuICBmb250LXNpemU6IDE2cHg7XG59XG5cbi5wb3N0LXByZXZpZXcgLnRodW1ibmFpbCB7XG4gIGJveC1zaXppbmc6IGJvcmRlci1ib3g7XG4gIG1hcmdpbi1ib3R0b206IDI0cHg7XG4gIHBvc2l0aW9uOiByZWxhdGl2ZTtcbiAgbWF4LXdpZHRoOiA1MDBweDtcbn1cbi5wb3N0LXByZXZpZXcgaW1nIHtcbiAgd2lkdGg6IDEwMCU7XG4gIGRpc3BsYXk6IGJsb2NrO1xufVxuXG4ubWV0YWRhdGEge1xuICBmb250LXNpemU6IDEycHg7XG4gIGxpbmUtaGVpZ2h0OiAxLjRlbTtcbiAgbWFyZ2luLWJvdHRvbTogMThweDtcbn1cblxuLm1ldGFkYXRhID4gKiB7XG4gIGRpc3BsYXk6IGlubGluZS1ibG9jaztcbn1cblxuLm1ldGFkYXRhIC5wdWJsaXNoZWREYXRlIHtcbiAgbWFyZ2luLXJpZ2h0OiAxZW07XG59XG5cbi5tZXRhZGF0YSAudGFncyB7XG4gIG1hcmdpbi10b3A6IDFlbTtcbn1cblxuLnRhZ3MgLnRhZyB7XG4gIGNvbG9yOiByZ2JhKDAsMCwwLDAuNjcpO1xuICBwYWRkaW5nOiAwLjNlbSAwLjVlbTtcbiAgbWFyZ2luOiAwO1xuICBmb250LXNpemU6IDgwJTtcbiAgYm9yZGVyOiAxcHggc29saWQgcmdiYSgwLDAsMCwwLjQpO1xuICBib3JkZXItcmFkaXVzOiAzcHg7XG4gIHRleHQtdHJhbnNmb3JtOiB1cHBlcmNhc2U7XG4gIGZvbnQtd2VpZ2h0OiA1MDA7XG59XG5cbkBtZWRpYShtaW4td2lkdGg6IDc2OHB4KSB7XG4gIC5wb3N0LXByZXZpZXcgaDIge1xuICAgIGZvbnQtc2l6ZTogMjZweDtcbiAgfVxuICAucG9zdC1wcmV2aWV3IC50aHVtYm5haWwge1xuICAgIGZsb2F0OiByaWdodDtcbiAgICB3aWR0aDogMzUlO1xuICAgIG1hcmdpbi1ib3R0b206IDA7XG4gIH1cbiAgLnBvc3QtcHJldmlldyAuZGVzY3JpcHRpb24ge1xuICAgIGZsb2F0OiBsZWZ0O1xuICAgIHdpZHRoOiA0MCU7XG4gIH1cbiAgLnBvc3QtcHJldmlldyAubWV0YWRhdGEge1xuICAgIGZsb2F0OiBsZWZ0O1xuICAgIHdpZHRoOiAxNSU7XG4gICAgbWFyZ2luLXRvcDogOHB4O1xuICB9XG4gIC5wb3N0LXByZXZpZXcgcCB7XG4gICAgbWFyZ2luOiAwIDAgMTJweCAwO1xuICAgIGxpbmUtaGVpZ2h0OiAxLjVlbTtcbiAgICBmb250LXNpemU6IDE2cHg7XG4gIH1cbn1cblxuPC9zdHlsZT5cblxuXG48c2NyaXB0PlxuICAgIGV4cG9ydCBkZWZhdWx0IHtcbiAgICAgICAgdGFnOiAncG9zdC1wcmV2aWV3JyxcbiAgICAgICAgZGF0YSgpIHtcbiAgICAgICAgICAgIHJldHVybiB7XG4gICAgICAgICAgICAgICAgdGl0bGU6IFwiRGVzZXJ0IEZyaWVuZHNcIixcbiAgICAgICAgICAgICAgICBkZXNjcmlwdGlvbjogXCJBIHBzeWNoYWRlbGljIGpvdXJuZXkgdGhyb3VnaCB0aW1lIGFuZCBzcGFjZVwiLFxuICAgICAgICAgICAgICAgIHB1YkRhdGU6IFwiTWF5IDEwLCAyMDE3XCIsXG4gICAgICAgICAgICAgICAgdGh1bWJuYWlsSW1nUGF0aDogXCIuL2ltYWdlcy9kZXNlcnRfZnJpZW5kcy5wbmdcIixcbiAgICAgICAgICAgICAgICB1cmw6IFwiaHR0cHM6Ly9kaXN0aWxsLnB1Yi8yMDE4L2J1aWxkaW5nLWJsb2Nrcy9cIixcbiAgICAgICAgICAgICAgICB0YWdzOiBbXCJhcnRcIl0sXG4gICAgICAgICAgICB9XG4gICAgICAgIH0sXG4gICAgICAgIG9uY3JlYXRlKCkge1xuICAgICAgICAgICAgY29uc29sZS5sb2coJ1Nsb3RQb3N0UHJldmlld1t0aGlzLm9wdGlvbnNdOiAgJyk7XG4gICAgICAgICAgICBjb25zb2xlLmxvZyh0aGlzLm9wdGlvbnMpXG4gICAgICAgICAgICBjb25zb2xlLmxvZyh0aGlzLm9wdGlvbnMuZGF0YSk7XG4gICAgICAgIH0sXG4gICAgfTtcbjwvc2NyaXB0PiJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFvQkEsWUFBWSxDQUFDLEVBQUUsQ0FDZixZQUFZLENBQUMsQ0FBQyxBQUFDLENBQUMsQUFDZCxXQUFXLENBQUUsYUFBYSxDQUFDLENBQUMsa0JBQWtCLENBQUMsQ0FBQyxVQUFVLENBQUMsQ0FBQyxNQUFNLENBQUMsQ0FBQyxNQUFNLENBQUMsQ0FBQyxNQUFNLENBQUMsQ0FBQyxTQUFTLENBQUMsQ0FBQyxXQUFXLENBQUMsQ0FBQyxZQUFZLENBQUMsQ0FBQyxnQkFBZ0IsQ0FBQyxDQUFDLEtBQUssQ0FBQyxDQUFDLFVBQVUsQUFDL0osQ0FBQyxBQUVELFlBQVksQ0FBQyxFQUFFLEFBQUMsQ0FBQyxBQUNmLFdBQVcsQ0FBRSxHQUFHLEFBQ2xCLENBQUMsQUFFRCxhQUFhLEFBQUMsQ0FBQyxBQUNiLGVBQWUsQ0FBRSxJQUFJLENBQ3JCLFFBQVEsQ0FBRSxNQUFNLENBQ2hCLE9BQU8sQ0FBRSxLQUFLLENBQ2QsYUFBYSxDQUFFLEdBQUcsQ0FBQyxLQUFLLENBQUMsS0FBSyxDQUFDLENBQUMsQ0FBQyxDQUFDLENBQUMsQ0FBQyxDQUFDLENBQUMsQ0FBQyxHQUFHLENBQUMsQ0FDM0MsT0FBTyxDQUFFLElBQUksQ0FBQyxDQUFDLEFBQ2pCLENBQUMsQUFDRCxhQUFhLGFBQWEsQUFBQyxDQUFDLEFBQzFCLGFBQWEsQ0FBRSxJQUFJLEFBQ3JCLENBQUMsQUFFRCxhQUFh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 */</style>`;
 
 		if (!options.root) {
 			this._oncreate = [];
@@ -267,99 +289,88 @@ var PostPreview = (function (HTMLElement) {
 
 		this._fragment = create_main_fragment(this, this._state);
 
-		this.root._oncreate.push(function () {
-			oncreate.call(this$1);
-			this$1.fire("update", { changed: assignTrue({}, this$1._state), current: this$1._state });
+		this.root._oncreate.push(() => {
+			oncreate.call(this);
+			this.fire("update", { changed: assignTrue({}, this._state), current: this._state });
 		});
 
 		this._fragment.c();
 		this._fragment.m(this.shadowRoot, null);
 
-		if (options.target) { this._mount(options.target, options.anchor); }
+		if (options.target) this._mount(options.target, options.anchor);
 	}
 
-	if ( HTMLElement ) PostPreview.__proto__ = HTMLElement;
-	PostPreview.prototype = Object.create( HTMLElement && HTMLElement.prototype );
-	PostPreview.prototype.constructor = PostPreview;
-
-	var prototypeAccessors = { url: { configurable: true },pubDate: { configurable: true },thumbnailImgPath: { configurable: true },title: { configurable: true },description: { configurable: true } };
-	var staticAccessors = { observedAttributes: { configurable: true } };
-
-	staticAccessors.observedAttributes.get = function () {
+	static get observedAttributes() {
 		return ["url","pubDate","thumbnailImgPath","title","description"];
-	};
+	}
 
-	prototypeAccessors.url.get = function () {
+	get url() {
 		return this.get().url;
-	};
+	}
 
-	prototypeAccessors.url.set = function (value) {
+	set url(value) {
 		this.set({ url: value });
-	};
+	}
 
-	prototypeAccessors.pubDate.get = function () {
+	get pubDate() {
 		return this.get().pubDate;
-	};
+	}
 
-	prototypeAccessors.pubDate.set = function (value) {
+	set pubDate(value) {
 		this.set({ pubDate: value });
-	};
+	}
 
-	prototypeAccessors.thumbnailImgPath.get = function () {
+	get thumbnailImgPath() {
 		return this.get().thumbnailImgPath;
-	};
+	}
 
-	prototypeAccessors.thumbnailImgPath.set = function (value) {
+	set thumbnailImgPath(value) {
 		this.set({ thumbnailImgPath: value });
-	};
+	}
 
-	prototypeAccessors.title.get = function () {
+	get title() {
 		return this.get().title;
-	};
+	}
 
-	prototypeAccessors.title.set = function (value) {
+	set title(value) {
 		this.set({ title: value });
-	};
+	}
 
-	prototypeAccessors.description.get = function () {
+	get description() {
 		return this.get().description;
-	};
+	}
 
-	prototypeAccessors.description.set = function (value) {
+	set description(value) {
 		this.set({ description: value });
-	};
+	}
 
-	PostPreview.prototype.attributeChangedCallback = function attributeChangedCallback (attr, oldValue, newValue) {
-		var obj;
+	attributeChangedCallback(attr, oldValue, newValue) {
+		this.set({ [attr]: newValue });
+	}
 
-		this.set(( obj = {}, obj[attr] = newValue, obj));
-	};
-
-	PostPreview.prototype.connectedCallback = function connectedCallback () {
+	connectedCallback() {
 		callAll(this._oncreate);
-	};
+	}
+}
 
-	Object.defineProperties( PostPreview.prototype, prototypeAccessors );
-	Object.defineProperties( PostPreview, staticAccessors );
-
-	return PostPreview;
-}(HTMLElement));
-
-assign(PostPreview.prototype, proto);
+assign(PostPreview.prototype, protoDev);
 assign(PostPreview.prototype, {
-	_mount: function _mount$$1(target, anchor) {
+	_mount(target, anchor) {
 		target.insertBefore(this, anchor);
 	}
 });
 
 customElements.define("post-preview", PostPreview);
 
+PostPreview.prototype._checkReadOnly = function _checkReadOnly(newState) {
+};
+
 /* src/PostsList.html generated by Svelte v2.6.0 */
 function create_main_fragment$1(component, ctx) {
 	var div, slot, p;
 
 	return {
-		c: function c() {
+		c: function create() {
 			div = createElement("div");
 			slot = createElement("slot");
 			p = createElement("p");
@@ -368,7 +379,7 @@ function create_main_fragment$1(component, ctx) {
 			div.className = "posts-list l-page";
 		},
 
-		m: function m(target, anchor) {
+		m: function mount(target, anchor) {
 			insertNode(div, target, anchor);
 			appendNode(slot, div);
 			appendNode(p, slot);
@@ -376,7 +387,7 @@ function create_main_fragment$1(component, ctx) {
 
 		p: noop,
 
-		d: function d(detach) {
+		d: function destroy$$1(detach) {
 			if (detach) {
 				detachNode(div);
 			}
@@ -384,11 +395,10 @@ function create_main_fragment$1(component, ctx) {
 	};
 }
 
-var PostsList = (function (HTMLElement) {
-	function PostsList(options) {
-		if ( options === void 0 ) options = {};
-
-		HTMLElement.call(this);
+class PostsList extends HTMLElement {
+	constructor(options = {}) {
+		super();
+		this._debugName = '<posts-list>';
 		init(this, options);
 		this._state = assign({}, options.data);
 		this._intro = true;
@@ -396,7 +406,8 @@ var PostsList = (function (HTMLElement) {
 		this._slotted = options.slots || {};
 
 		this.attachShadow({ mode: 'open' });
-		this.shadowRoot.innerHTML = "<style>.posts-list{margin-top:24px;margin-bottom:24px}@media(min-width: 768px){.posts-list{margin-top:60px}}</style>";
+		this.shadowRoot.innerHTML = `<style>.posts-list{margin-top:24px;margin-bottom:24px}@media(min-width: 768px){.posts-list{margin-top:60px}}
+		/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiUG9zdHNMaXN0Lmh0bWwiLCJzb3VyY2VzIjpbIlBvc3RzTGlzdC5odG1sIl0sInNvdXJjZXNDb250ZW50IjpbIjxkaXYgY2xhc3M9XCJwb3N0cy1saXN0IGwtcGFnZVwiPlxuICAgIDxzbG90PlxuICAgICAgICA8cD5wbGFjZWhvbGRlcjwvcD5cbiAgICA8L3Nsb3Q+XG48L2Rpdj5cblxuXG5cbjxzdHlsZT5cblxuLnBvc3RzLWxpc3Qge1xuICBtYXJnaW4tdG9wOiAyNHB4O1xuICBtYXJnaW4tYm90dG9tOiAyNHB4O1xufVxuXG5AbWVkaWEobWluLXdpZHRoOiA3NjhweCkge1xuICAucG9zdHMtbGlzdCB7XG4gICAgbWFyZ2luLXRvcDogNjBweDtcbiAgfVxufVxuXG48L3N0eWxlPlxuXG48c2NyaXB0PlxuZXhwb3J0IGRlZmF1bHQge1xuICAgIHRhZzogJ3Bvc3RzLWxpc3QnXG59XG48L3NjcmlwdD5cbiJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFVQSxXQUFXLEFBQUMsQ0FBQyxBQUNYLFVBQVUsQ0FBRSxJQUFJLENBQ2hCLGFBQWEsQ0FBRSxJQUFJLEFBQ3JCLENBQUMsQUFFRCxNQUFNLFlBQVksS0FBSyxDQUFDLEFBQUMsQ0FBQyxBQUN4QixXQUFXLEFBQUMsQ0FBQyxBQUNYLFVBQVUsQ0FBRSxJQUFJLEFBQ2xCLENBQUMsQUFDSCxDQUFDIn0= */</style>`;
 
 		this.slots = {};
 
@@ -405,52 +416,42 @@ var PostsList = (function (HTMLElement) {
 		this._fragment.c();
 		this._fragment.m(this.shadowRoot, null);
 
-		if (options.target) { this._mount(options.target, options.anchor); }
+		if (options.target) this._mount(options.target, options.anchor);
 	}
 
-	if ( HTMLElement ) PostsList.__proto__ = HTMLElement;
-	PostsList.prototype = Object.create( HTMLElement && HTMLElement.prototype );
-	PostsList.prototype.constructor = PostsList;
-
-	var staticAccessors = { observedAttributes: { configurable: true } };
-
-	staticAccessors.observedAttributes.get = function () {
+	static get observedAttributes() {
 		return [];
-	};
+	}
 
 
 
-	PostsList.prototype.connectedCallback = function connectedCallback () {
-		var this$1 = this;
-
-		Object.keys(this._slotted).forEach(function (key) {
-			this$1.appendChild(this$1._slotted[key]);
+	connectedCallback() {
+		Object.keys(this._slotted).forEach(key => {
+			this.appendChild(this._slotted[key]);
 		});
-	};
+	}
 
-	PostsList.prototype.attributeChangedCallback = function attributeChangedCallback (attr, oldValue, newValue) {
-		var obj;
+	attributeChangedCallback(attr, oldValue, newValue) {
+		this.set({ [attr]: newValue });
+	}
+}
 
-		this.set(( obj = {}, obj[attr] = newValue, obj));
-	};
-
-	Object.defineProperties( PostsList, staticAccessors );
-
-	return PostsList;
-}(HTMLElement));
-
-assign(PostsList.prototype, proto);
+assign(PostsList.prototype, protoDev);
 assign(PostsList.prototype, {
-	_mount: function _mount$$1(target, anchor) {
+	_mount(target, anchor) {
 		target.insertBefore(this, anchor);
 	}
 });
 
 customElements.define("posts-list", PostsList);
 
-var components = [
+PostsList.prototype._checkReadOnly = function _checkReadOnly(newState) {
+};
+
+const components = [
     PostPreview,
-    PostsList ];
+    PostsList,
+];
 
 return components;
 
