@@ -1,14 +1,26 @@
 # TODO
 
+## docs / setup
+
+- [ ] document usage
+- [ ] add license
+- [ ] personalize the README
+
+## build
+
 - [ ] make NPM build work properly
 - [ ] should rollup build UMD or IIFE?
 - [ ] publish to NPM
-- [ ] document usage
-- [ ] add license
+- [ ] fix uglify plugin error
+- [ ] figure out how to deal w/ distill dependency; v1 vs v2? independent?
+
+## components
+
 - [ ] add header to files from distillpub
-- [ ] figure out how to deal w/ distill dependency
 - [ ] add a header element
+- [ ] add a photo-slider element
+
+## transforms
+
 - [ ] add some kind of JSDOM transform script to apply to HTML generated
       from submodule
-- [ ] add a photo-slider element
-- [ ] fix uglify plugin error
