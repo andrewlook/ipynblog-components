@@ -85,24 +85,8 @@ const exampleES5 = {
 	]
 };
 
-const distillLocal = {
-    input: 'bundles/distill.js',
-    output: {
-        sourcemap: true,
-        format: 'iife',
-        file: 'public/distillBundle.js',
-        name: 'distillBundle'
-    },
-    plugins: [
-        resolve(),
-        commonjs(),
-
-    ]
-};
-
 export default [
     componentsES6,
 	componentsES5,
     exampleES5,
-	distillLocal,
 ]

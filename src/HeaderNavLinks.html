@@ -1,0 +1,44 @@
+<div class="nav">
+    <slot>
+        <a href="https://distill.pub/about/">About</a>
+        <a href="https://distill.pub/prize/">Prize</a>
+        <a href="https://distill.pub/journal/">Submit</a>
+    </slot>
+</div>
+
+<style>
+a {
+  font-size: 16px;
+  height: 60px;
+  line-height: 60px;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.8);
+  padding: 22px 0;
+}
+a:hover {
+  color: rgba(255, 255, 255, 1);
+}
+@media(min-width: 1080px) {
+  a {
+    height: 70px;
+    line-height: 70px;
+    padding: 28px 0;
+  }
+}
+.nav {
+  float: right;
+  font-weight: 300;
+}
+.nav a {
+  font-size: 12px;
+  margin-left: 24px;
+  text-transform: uppercase;
+}
+</style>
+
+
+<script>
+export default {
+    tag: 'header-nav-links'
+}
+</script>

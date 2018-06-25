@@ -13,7 +13,18 @@
 
     <div>
         <d-header>
-            <header-nav></header-nav>
+            <header-nav>
+                <slot>
+                    <!-- TODO these styles DO NOT get inherited from Distill, because of the Shadow DOM rooting -->
+                    <div class="l-page">
+                        <!--
+                        <h1>False</h1>
+                        -->
+                        <header-logo></header-logo>
+                        <header-nav-links></header-nav-links>
+                    </div>
+                </slot>
+            </header-nav>
         </d-header>
     	<!-- distill-header></distill-header -->
     	<d-front-matter>
@@ -48,7 +59,8 @@
     	</d-article>
     </div>
 
-	<script src='distillBundle.js'></script>
+	<!-- <script src='distillBundle.js'></script> -->
+	<script src='template.v2.js'></script>
 	<script src='exampleBundle.js'></script>
 
 	<script>

@@ -1,25 +1,7 @@
-<div class="header-nav">
-    <!-- TODO these styles DO NOT get inherited from Distill, because of the Shadow DOM rooting -->
-    <div class="content l-page">
-
-        <!-- TODO externalize homepage URL -->
-        <a href="https://distill.pub/" class="logo">
-        <!-- TODO externalize logo -->
-        <svg viewBox="-607 419 64 64">
-            <path d="M-573.4,478.9c-8,0-14.6-6.4-14.6-14.5s14.6-25.9,14.6-40.8c0,14.9,14.6,32.8,14.6,40.8S-565.4,478.9-573.4,478.9z"></path>
-        </svg>
-
-        <!-- TODO externalize logo name -->
-        Distill
-        </a>
-        <div class="nav">
-        <slot>
-            <a href="https://distill.pub/about/">About</a>
-            <a href="https://distill.pub/prize/">Prize</a>
-            <a href="https://distill.pub/journal/">Submit</a>
-        </slot>
-        </div>
-    </div>
+<div class="header-nav content">
+    <slot>
+        <h1>true</h1>
+    </slot>
 </div>
 
 <style>
@@ -35,55 +17,10 @@
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
 }
-.header-nav .content {
-  height: 70px;
-}
-.header-nav a {
-  font-size: 16px;
-  height: 60px;
-  line-height: 60px;
-  text-decoration: none;
-  color: rgba(255, 255, 255, 0.8);
-  padding: 22px 0;
-}
-.header-nav a:hover {
-  color: rgba(255, 255, 255, 1);
-}
-.header-nav svg {
-  width: 24px;
-  position: relative;
-  top: 4px;
-  margin-right: 2px;
-}
 @media(min-width: 1080px) {
   .header-nav {
     height: 70px;
   }
-  .header-nav a {
-    height: 70px;
-    line-height: 70px;
-    padding: 28px 0;
-  }
-  .header-nav .logo {
-  }
-}
-.header-nav svg path {
-  fill: none;
-  stroke: rgba(255, 255, 255, 0.8);
-  stroke-width: 3px;
-}
-.header-nav .logo {
-  font-size: 17px;
-  font-weight: 200;
-}
-.header-nav .nav {
-  float: right;
-  font-weight: 300;
-}
-.header-nav .nav a {
-  font-size: 12px;
-  margin-left: 24px;
-  text-transform: uppercase;
 }
 </style>
 
